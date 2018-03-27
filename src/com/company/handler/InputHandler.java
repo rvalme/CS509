@@ -120,6 +120,7 @@ public class InputHandler {
             }
             if (found_arr_date == 0) {
                 System.out.println("Date out of range");
+            }
         }
         reader.close();
     }
