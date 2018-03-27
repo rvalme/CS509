@@ -95,7 +95,7 @@ public class InputHandler {
         reader.close();
     }
 
-    public void readArrivalDate(){
+    public void validateArrivalDate(){
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         int found_arr_date = 0;
         while(found_arr_date == 0){
