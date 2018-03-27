@@ -81,6 +81,7 @@ public class InputHandler {
             String dep_date = reader.nextLine(); // Scans the line for the string.
             String [] sdep_date = dep_date.split("_");
             if(sdep_date.length != 3){
+                System.out.println("Improper date format");
                 continue;
             }
             int month = Integer.parseInt(sdep_date[0]);
@@ -90,6 +91,9 @@ public class InputHandler {
                 // has to be between in May
                 this.departure_date = dep_date;
                 found_dep_date = 1;
+            }
+            if (found_dep_date == 0) {
+                System.out.println("Date out of range");
             }
         }
         reader.close();
@@ -103,6 +107,7 @@ public class InputHandler {
             String arr_date = reader.nextLine(); // Scans the line for the string.
             String [] sarr_date = arr_date.split("_");
             if(sarr_date.length != 3){
+                System.out.println("Improper date format");
                 continue;
             }
             int month = Integer.parseInt(sarr_date[0]);
@@ -113,6 +118,8 @@ public class InputHandler {
                 this.arrival_date = arr_date;
                 found_arr_date = 1;
             }
+            if (found_arr_date == 0) {
+                System.out.println("Date out of range");
         }
         reader.close();
     }
