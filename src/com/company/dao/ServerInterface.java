@@ -12,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.company.airport.Airports;
+import com.company.airplane.Airplanes;
+import com.company.flight.Flights;
 import com.company.utils.QueryFactory;
 
 
@@ -84,7 +86,111 @@ public enum ServerInterface {
 		return airports;
 		
 	}
-	
+
+	public Flights getFlightsFromDepartureOnDate (String teamName, String departureAirport, String date) {
+
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+
+		String xmlFlights;
+		Flights flights;
+
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET
+			 */
+			url = new URL(mUrlBase + QueryFactory.getFlightsFromDepartureOnDate(teamName, departureAirport, date));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", teamName);
+
+			/**
+			 * If response code of SUCCESS read the XML string returned
+			 * line by line to build the full return string
+			 */
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		xmlFlights = result.toString();
+		System.out.println(xmlFlights);
+		flights = DaoFlight.addAll(xmlFlights);
+		return flights;
+
+	}
+
+	/**
+	 * Return a collection of all the airplanes from server
+	 *
+	 * Retrieve the list of airplanes available to the specified ticketAgency via HTTPGet of the server
+	 *
+	 * @param teamName identifies the name of the team requesting the collection of airplanes
+	 * @return collection of Airplanes from server
+	 */
+	public Airplanes getAirplanes (String teamName) {
+
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+
+		String xmlAirplanes;
+
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET
+			 */
+			url = new URL(mUrlBase + QueryFactory.getAirplanes(teamName));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", teamName);
+
+			/**
+			 * If response code of SUCCESS read the XML string returned
+			 * line by line to build the full return string
+			 */
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		xmlAirplanes = result.toString();
+
+		Airplanes airplanes = DaoAirplane.addAll(xmlAirplanes);
+		return airplanes;
+	}
+
 	/**
 	 * Lock the database for updating by the specified team. The operation will fail if the lock is held by another team.
 	 * 

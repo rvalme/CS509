@@ -13,6 +13,67 @@ public class InputHandler {
     String trip_type;
     String seat_type;
 
+    Scanner mReader;
+
+    //Getters to get input from outside classes
+    public String getDeparture_airport_code() {
+        return departure_airport_code;
+    }
+
+    public String getDeparture_date() {
+        return departure_date;
+    }
+
+    //initializing scanner
+    public void initialize() {
+        mReader = new Scanner(System.in);  // Reading from System.in
+    }
+
+    //closing scanner
+    public void close() {
+        mReader.close();
+    }
+
+    public void validateAirport(Airports airports) {
+
+        boolean found = false;
+        while(!found) {
+            System.out.println("Enter the departure airport 3-letter code: ");
+            String dep_airport_code = mReader.nextLine(); // Scans the line for the string
+            for (Airport airport : airports) {
+                if (airport.code().equals(dep_airport_code)) {
+                    found = true;
+                    this.departure_airport_code = dep_airport_code;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void validateDepartureTime() {
+        boolean accepted = false;
+        while(!accepted){
+            System.out.println("Enter the desired departure date (e.g. format YYYY_MM_DD): ");
+            String dep_date = mReader.nextLine(); // Scans the line for the string.
+            String [] sdep_date = dep_date.split("_");
+            if(sdep_date.length != 3){
+                System.out.println("Improper date format");
+                continue;
+            }
+            int month = Integer.parseInt(sdep_date[1]);
+            int day = Integer.parseInt(sdep_date[2]);
+            int year = Integer.parseInt(sdep_date[0]);
+
+            //This logic is not very correct but we can leave this for now
+            if((month == 5) && (year == 2018) && (day <= 31)){
+                // has to be between in May
+                this.departure_date = dep_date;
+                accepted = true;
+            }
+        }
+
+    }
+
     public void validateAirportCode(Airports airports){
         // need the list of airports
         // check what information is returned by the airport
