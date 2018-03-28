@@ -97,8 +97,8 @@ public class DaoFlight {
         mFirstClassReserved = Integer.parseInt(getCharacterDataFromElement(elementFirstClass));
 
         elementCoach = (Element)elementSeating.getElementsByTagName("Coach").item(0);
-        mCoachPrice = Double.parseDouble(elementFirstClass.getAttributeNode("Price").getValue().split("\\$")[1]);
-        mCoachReserved = Integer.parseInt(getCharacterDataFromElement(elementFirstClass));
+        mCoachPrice = Double.parseDouble(elementCoach.getAttributeNode("Price").getValue().split("\\$")[1]);
+        mCoachReserved = Integer.parseInt(getCharacterDataFromElement(elementCoach));
 
         /**
          * Update the Flight object with values from XML node
