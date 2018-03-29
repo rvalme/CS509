@@ -93,11 +93,11 @@ public class DaoFlight {
         Element elementFirstClass;
         Element elementCoach;
         elementFirstClass = (Element)elementSeating.getElementsByTagName("FirstClass").item(0);
-        mFirstClassPrice = Double.parseDouble(elementFirstClass.getAttributeNode("Price").getValue().split("\\$")[1]);
+        mFirstClassPrice = Double.parseDouble(elementFirstClass.getAttributeNode("Price").getValue().split("\\$")[1].replaceAll(",",""));
         mFirstClassReserved = Integer.parseInt(getCharacterDataFromElement(elementFirstClass));
 
         elementCoach = (Element)elementSeating.getElementsByTagName("Coach").item(0);
-        mCoachPrice = Double.parseDouble(elementCoach.getAttributeNode("Price").getValue().split("\\$")[1]);
+        mCoachPrice = Double.parseDouble(elementCoach.getAttributeNode("Price").getValue().split("\\$")[1].replaceAll(",",""));
         mCoachReserved = Integer.parseInt(getCharacterDataFromElement(elementCoach));
 
         /**
