@@ -37,10 +37,8 @@ public class Driver {
 			System.exit(-1);
 			return;
 		}*/
-		
 		String teamName = "Man-Month";
 		// Try to get a list of airports
-        /*
 		Airports airports = ServerInterface.INSTANCE.getAirports(teamName);
 		Collections.sort(airports);
 		for (Airport airport : airports) {
@@ -65,8 +63,7 @@ public class Driver {
 			System.out.println(flight.toString());
 			System.out.print("\n");
 		}
-		*/
 		TimeConversion tconv = new TimeConversion(42.3601, -71.0589);
-		tconv.getTimeZone();
+		tconv.gmtToLocal(flights.get(0).getmArrivalTime(), tconv.getTimeZone());
 	}
 }

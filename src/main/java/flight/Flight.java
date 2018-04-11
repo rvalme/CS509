@@ -103,6 +103,13 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     }
 
 
+    public String getmArrivalTime(){
+        return mArrivalTime;
+    }
+
+    public String getmDepartureTime(){
+        return mDepartureTime;
+    }
     public boolean isValidAirplaneType (String airplaneType) {
         // If the name is null or empty it can't be valid
         if ((airplaneType == null) || (airplaneType == ""))
