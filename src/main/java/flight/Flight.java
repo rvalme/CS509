@@ -110,6 +110,19 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     public String getmDepartureTime(){
         return mDepartureTime;
     }
+
+    public String getmDepartureAirport() {
+        return mDepartureAirport;
+    }
+
+    public String getmArrivalAirport() {
+        return mArrivalAirport;
+    }
+
+    public String getmFlightNumber() {
+        return mFlightNumber;
+    }
+
     public boolean isValidAirplaneType (String airplaneType) {
         // If the name is null or empty it can't be valid
         if ((airplaneType == null) || (airplaneType == ""))

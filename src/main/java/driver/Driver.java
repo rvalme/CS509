@@ -10,6 +10,9 @@ import airplane.Airplane;
 import airplane.Airplanes;
 import flight.Flight;
 import flight.Flights;
+import flight.Trip;
+import flight.Trips;
+import dao.DaoTrip;
 import dao.ServerInterface;
 import handler.InputHandler;
 import utils.TimeConversion;
@@ -21,6 +24,7 @@ import utils.TimeConversion;
 //Need to: InputHandler asking user to input data in sequence
 public class Driver {
 
+	public static String teamName;
 	/**
 	 * Entry point for CS509 sample code driver
 	 * 
@@ -37,7 +41,7 @@ public class Driver {
 			System.exit(-1);
 			return;
 		}*/
-		String teamName = "Man-Month";
+		teamName = "Man-Month";
 		// Try to get a list of airports
 		Airports airports = ServerInterface.INSTANCE.getAirports(teamName);
 		Collections.sort(airports);
@@ -54,16 +58,32 @@ public class Driver {
 		InputHandler inpH1 = new InputHandler();
 		inpH1.initialize();
 		inpH1.validateDepartureTime();
-		inpH1.validateAirport(airports);
+		inpH1.validateDepartureAirport(airports);
+		inpH1.validateArrivalAirport(airports);
 		inpH1.close();
 
 		Flights flights = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, inpH1.getDeparture_airport_code(), inpH1.getDeparture_date());
 		Collections.sort(flights);
-		for (Flight flight: flights) {
-			System.out.println(flight.toString());
+//		for (Flight flight: flights) {
+//			System.out.println(flight.toString());
+//			System.out.print("\n");
+//		}
+
+		Trips trips = DaoTrip.getTripsFromParameters(inpH1.getDeparture_airport_code(), inpH1.getArrival_airport_code(), inpH1.getDeparture_date());
+		System.out.println("found" + trips.size() + " trips");
+
+		for(Trip trip: trips) {
+			System.out.print("printing trips\n");
+			System.out.println(trip.toString());
 			System.out.print("\n");
 		}
+
 		TimeConversion tconv = new TimeConversion(42.3601, -71.0589);
-		tconv.gmtToLocal(flights.get(0).getmArrivalTime(), tconv.getTimeZone());
+		System.out.println("gmt time: " + flights.get(0).getmArrivalTime() + " local time: " + tconv.gmtToLocal(flights.get(0).getmArrivalTime(), tconv.getTimeZone()));
+
+	}
+
+	public static String getTeamName() {
+		return teamName;
 	}
 }

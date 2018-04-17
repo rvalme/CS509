@@ -24,6 +24,14 @@ public class InputHandler {
         return departure_date;
     }
 
+    public String getArrival_airport_code() {
+        return arrival_airport_code;
+    }
+
+    public String getArrival_date() {
+        return arrival_date;
+    }
+
     //initializing scanner
     public void initialize() {
         mReader = new Scanner(System.in);  // Reading from System.in
@@ -34,7 +42,7 @@ public class InputHandler {
         mReader.close();
     }
 
-    public void validateAirport(Airports airports) {
+    public void validateDepartureAirport(Airports airports) {
 
         boolean found = false;
         while(!found) {
@@ -44,6 +52,22 @@ public class InputHandler {
                 if (airport.code().equals(dep_airport_code)) {
                     found = true;
                     this.departure_airport_code = dep_airport_code;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void validateArrivalAirport(Airports airports) {
+
+        boolean found = false;
+        while(!found) {
+            System.out.println("Enter the arrival airport 3-letter code: ");
+            String dep_airport_code = mReader.nextLine(); // Scans the line for the string
+            for (Airport airport : airports) {
+                if (airport.code().equals(dep_airport_code)) {
+                    found = true;
+                    this.arrival_airport_code = dep_airport_code;
                     break;
                 }
             }
@@ -65,7 +89,8 @@ public class InputHandler {
             int year = Integer.parseInt(sdep_date[0]);
 
             //This logic is not very correct but we can leave this for now
-            if((month == 5) && (year == 2018) && (day <= 31)){
+            //if((month == 5) && (year == 2018) && (day <= 31)){
+            if((year == 2018) && (day <= 31)){
                 // has to be between in May
                 this.departure_date = dep_date;
                 accepted = true;
