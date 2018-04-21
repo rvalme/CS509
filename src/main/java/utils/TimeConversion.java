@@ -7,7 +7,9 @@ import com.google.maps.model.LatLng;
 
 // convert inputted time of airport from GMT to local time of that airport using
 // using the latitude and longitude of that airport
-public class TimeConversion {
+public enum TimeConversion {
+
+    INSTANCE;
 
     LatLng airport_loc;          // latlng of desired timezone
     GeoApiContext gcontext;
@@ -18,8 +20,8 @@ public class TimeConversion {
     int conv_pst = 1;
 
     //create and initialize class once then for different airports just set LatLng
-    public TimeConversion (double latitude, double longitude) {
-        airport_loc = new LatLng(latitude, longitude);
+    private TimeConversion () {
+        //airport_loc = new LatLng(latitude, longitude);
         gcontext = new GeoApiContext.Builder()
                 .apiKey("AIzaSyCrfc0lAr1FdBqJcPI6M3TQ6C297FvuEfs")
                 .build();
@@ -27,9 +29,10 @@ public class TimeConversion {
 
     public void setLatLng(double latitude, double longitude) {
         airport_loc = new LatLng(latitude, longitude);
-
     }
-    public String getTimeZone(){
+
+    public String getTimeZone(double latitude, double longitude){
+        setLatLng(latitude,longitude);
         try{
             //GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCrfc0lAr1FdBqJcPI6M3TQ6C297FvuEfs");
             TimeZone tz = TimeZoneApi.getTimeZone(gcontext, airport_loc).await();

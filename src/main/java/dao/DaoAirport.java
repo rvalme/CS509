@@ -77,7 +77,6 @@ public class DaoAirport {
 		/**
 		 * Instantiate an empty Airport object
 		 */
-		Airport airport = new Airport();
 
 		String name;
 		String code;
@@ -100,10 +99,7 @@ public class DaoAirport {
 		/**
 		 * Update the Airport object with values from XML node
 		 */
-		airport.name(name);
-		airport.code(code);
-		airport.latitude(latitude);
-		airport.longitude(longitude);
+		Airport airport = new Airport(name, code, latitude, longitude);
 		
 		return airport;
 	}

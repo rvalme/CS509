@@ -1,6 +1,9 @@
 package flight;
 
 import java.util.Comparator;
+import airport.Airport;
+import driver.Driver;
+import utils.TimeConversion;
 
 public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     String mAirplaneType;           //    airplane type
@@ -79,13 +82,16 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     }
 
     public String toString() {
+        Airport departure = Driver.getAirport(mDepartureAirport);
+        Airport arrival = Driver.getAirport(mArrivalAirport);
+
         StringBuffer as = new StringBuffer();
 
         as.append("Airplane: ").append(mAirplaneType).append(", flight time: ").append(mTravelTime).append(", flight number: ").append(mFlightNumber);
         as.append("\n");
-        as.append("Departing ").append(mDepartureAirport).append(" at ").append(mDepartureTime);
+        as.append("Departing ").append(mDepartureAirport).append(" at ").append(TimeConversion.INSTANCE.gmtToLocal(mDepartureTime, departure.getmTimeZone()));
         as.append("\n");
-        as.append("Arriving at ").append(mArrivalAirport).append(" at ").append(mArrivalTime);
+        as.append("Arriving at ").append(mArrivalAirport).append(" at ").append(TimeConversion.INSTANCE.gmtToLocal(mArrivalTime, arrival.getmTimeZone()));
         as.append("\n");
         as.append("First class price: ").append(mFirstClassPrice).append(", ").append(mFirstClassReserved).append(" booked");
         as.append("\n");

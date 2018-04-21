@@ -25,6 +25,11 @@ import utils.TimeConversion;
 public class Driver {
 
 	public static String teamName;
+
+	private static Airports airports;
+
+	private static Airplanes airplanes;
+
 	/**
 	 * Entry point for CS509 sample code driver
 	 * 
@@ -43,13 +48,13 @@ public class Driver {
 		}*/
 		teamName = "Man-Month";
 		// Try to get a list of airports
-		Airports airports = ServerInterface.INSTANCE.getAirports(teamName);
+		airports = ServerInterface.INSTANCE.getAirports(teamName);
 		Collections.sort(airports);
 		for (Airport airport : airports) {
 			System.out.println(airport.toString());
 		}
 
-		Airplanes airplanes = ServerInterface.INSTANCE.getAirplanes(teamName);
+		airplanes = ServerInterface.INSTANCE.getAirplanes(teamName);
 		Collections.sort(airplanes);
 		for (Airplane airplane: airplanes) {
 			System.out.println(airplane.toString());
@@ -78,12 +83,22 @@ public class Driver {
 			System.out.print("\n");
 		}
 
-		TimeConversion tconv = new TimeConversion(42.3601, -71.0589);
-		System.out.println("gmt time: " + flights.get(0).getmArrivalTime() + " local time: " + tconv.gmtToLocal(flights.get(0).getmArrivalTime(), tconv.getTimeZone()));
+		//System.out.println("gmt time: " + flights.get(0).getmArrivalTime() + " local time: " + TimeConversion.INSTANCE.gmtToLocal(flights.get(0).getmArrivalTime(), 42.3601, -71.0589));
 
 	}
 
 	public static String getTeamName() {
 		return teamName;
+	}
+
+	public static Airport getAirport(String airportCode) {
+		Airport result = new Airport();
+		for (Airport airport: airports) {
+			if (airport.code().equals(airportCode)) {
+				result = airport;
+				break;
+			}
+		}
+		return result;
 	}
 }

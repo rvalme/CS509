@@ -4,8 +4,8 @@
 package airport;
 
 import java.util.Comparator;
-
 import utils.Saps;
+import utils.TimeConversion;
 
 /**
  * This class holds values pertaining to a single Airport. Class member attributes
@@ -29,7 +29,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	private String mCode;              // Three character code of the airport
 	private double mLatitude;          // Latitude of airport in decimal format
 	private double mLongitude;         // Longitude of the airport in decimal format
-	
+	private String mTimeZone;           // Time zone of the airport
 	/**
 	 * Default constructor
 	 * 
@@ -44,6 +44,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		mCode = "";
 		mLatitude = Double.MAX_VALUE;
 		mLongitude = Double.MAX_VALUE;
+		mTimeZone = "";
 	}
 	
 	/**
@@ -74,6 +75,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		mCode = code;
 		mLatitude = latitude;
 		mLongitude = longitude;
+		mTimeZone = TimeConversion.INSTANCE.getTimeZone(mLatitude, mLongitude);
 	}
 	
 	/**
@@ -107,6 +109,11 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		mCode = code;
 		mLatitude = tmpLatitude;
 		mLongitude = tmpLongitude;
+		mTimeZone = TimeConversion.INSTANCE.getTimeZone(mLatitude, mLongitude);
+	}
+
+	public String getmTimeZone() {
+		return mTimeZone;
 	}
 
 	/**
