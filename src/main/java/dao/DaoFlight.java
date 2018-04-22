@@ -34,7 +34,9 @@ public class DaoFlight {
             Element elementFlight = (Element) nodesFlights.item(i);
             Flight flight = buildFlight (elementFlight);
 
-            flights.add(flight);
+            if (flight.isSeatAvailable()) {
+                flights.add(flight);
+            }
 
         }
 

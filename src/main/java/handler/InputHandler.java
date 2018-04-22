@@ -5,7 +5,10 @@ import airport.Airport;
 // Done: Finished reading input capability for user specified options.
 // Need to: Validate User data
 //          Write script that gets info from user, checks if info is valid, and stores.
-public class InputHandler {
+public enum InputHandler {
+
+    INSTANCE;
+
     String departure_airport_code;
     String arrival_airport_code;
     String departure_date;
@@ -32,6 +35,14 @@ public class InputHandler {
         return arrival_date;
     }
 
+    public String getTrip_type() {
+        return trip_type;
+    }
+
+    public String getSeat_type() {
+        return seat_type;
+    }
+
     //initializing scanner
     public void initialize() {
         mReader = new Scanner(System.in);  // Reading from System.in
@@ -47,11 +58,11 @@ public class InputHandler {
         boolean found = false;
         while(!found) {
             System.out.println("Enter the departure airport 3-letter code: ");
-            String dep_airport_code = mReader.nextLine(); // Scans the line for the string
+            String airport_code = mReader.nextLine(); // Scans the line for the string
             for (Airport airport : airports) {
-                if (airport.code().equals(dep_airport_code)) {
+                if (airport.code().equals(airport_code)) {
                     found = true;
-                    this.departure_airport_code = dep_airport_code;
+                    this.departure_airport_code = airport_code;
                     break;
                 }
             }
@@ -63,11 +74,15 @@ public class InputHandler {
         boolean found = false;
         while(!found) {
             System.out.println("Enter the arrival airport 3-letter code: ");
-            String dep_airport_code = mReader.nextLine(); // Scans the line for the string
+            String airport_code = mReader.nextLine(); // Scans the line for the string
+            if (airport_code.equals(departure_airport_code)) {
+                System.out.println("Arrival airport cannot be the same as departure airport");
+                continue;
+            }
             for (Airport airport : airports) {
-                if (airport.code().equals(dep_airport_code)) {
+                if (airport.code().equals(airport_code)) {
                     found = true;
-                    this.arrival_airport_code = dep_airport_code;
+                    this.arrival_airport_code = airport_code;
                     break;
                 }
             }
@@ -88,7 +103,6 @@ public class InputHandler {
             int day = Integer.parseInt(sdep_date[2]);
             int year = Integer.parseInt(sdep_date[0]);
 
-            //This logic is not very correct but we can leave this for now
             //if((month == 5) && (year == 2018) && (day <= 31)){
             if((year == 2018) && (day <= 31)){
                 // has to be between in May
@@ -212,21 +226,18 @@ public class InputHandler {
     }
 
     public void validateSeatType(){
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
         int found_seat_type = 0;
         while(found_seat_type == 0) {
-            System.out.println("Enter the desired trip type (coach or first class): ");
-            String s_type = reader.nextLine(); // Scans the line for the string.
-            //compare all airports to make sure entered string is in the list
+            System.out.println("Enter the desired seat type (coach or first class): ");
+            String s_type = mReader.nextLine(); // Scans the line for the string.
             if (s_type.equals("coach") || s_type.equals("first class")) {
                 found_seat_type = 1;
-                this.seat_type = s_type; // Scans the line for the string.
+                this.seat_type = s_type;
             }
             if (found_seat_type == 0) {
                 System.out.println("Seat type not found!");
             }
         }
-        reader.close();
     }
 
 

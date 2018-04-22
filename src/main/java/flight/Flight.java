@@ -4,6 +4,8 @@ import java.util.Comparator;
 import airport.Airport;
 import driver.Driver;
 import utils.TimeConversion;
+import airplane.Airplane;
+import handler.InputHandler;
 
 public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     String mAirplaneType;           //    airplane type
@@ -108,7 +110,6 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
         return flight1.compareTo(flight2);
     }
 
-
     public String getmArrivalTime(){
         return mArrivalTime;
     }
@@ -127,6 +128,19 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
 
     public String getmFlightNumber() {
         return mFlightNumber;
+    }
+
+    public boolean isSeatAvailable() {
+        Airplane airplane = Driver.getAirplane(mAirplaneType);
+
+        if (InputHandler.INSTANCE.getSeat_type().equals("coach")) {
+            return (mCoachReserved < airplane.getmCoachSeats());
+        }
+        else if (InputHandler.INSTANCE.getSeat_type().equals("first class")) {
+            return (mFirstClassReserved < airplane.getmFirstClassSeats());
+        }
+
+        return false;
     }
 
     public boolean isValidAirplaneType (String airplaneType) {

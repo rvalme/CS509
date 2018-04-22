@@ -9,22 +9,22 @@ import java.util.TreeSet;
 
 public class DaoTrip {
 
-    public static Trips getTripsFromParameters (String from, String to, String onDate) {
+    public static Trips getTripsFromParameters (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
-        trips.addAll(getOneFlightTrips(from,to,onDate));
-        trips.addAll(getTwoFlightTrips(from,to,onDate));
-        trips.addAll(getThreeFlightTrips(from,to,onDate));
+        trips.addAll(getOneFlightTrips(teamName, from, to, onDate));
+        trips.addAll(getTwoFlightTrips(teamName, from, to, onDate));
+        trips.addAll(getThreeFlightTrips(teamName, from, to, onDate));
 //        System.out.println("Next day: " + getNextDate(onDate));
 //        System.out.println("Next two day: " + getNextDate(getNextDate(onDate)));
 
         return trips;
     }
 
-    public static Trips getOneFlightTrips (String from, String to, String onDate) {
+    public static Trips getOneFlightTrips (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
-        Flights flights = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(Driver.getTeamName(), from, onDate);
+        Flights flights = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, from, onDate);
         for (Flight flight: flights) {
             if (flight.getmArrivalAirport().equals(to)) {
                 Trip tripInstance = new Trip();
@@ -38,12 +38,12 @@ public class DaoTrip {
         return trips;
     }
 
-    public static Trips getTwoFlightTrips (String from, String to, String onDate) {
+    public static Trips getTwoFlightTrips (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
-        Flights fromDeparture = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(Driver.getTeamName(), from, onDate);
-        Flights toArrival = ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), to, onDate);
-        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), to, getNextDate(onDate)));
+        Flights fromDeparture = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, from, onDate);
+        Flights toArrival = ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, to, onDate);
+        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, to, getNextDate(onDate)));
 
         TreeSet<String> intersection = new TreeSet<String>();
         intersection.addAll(fromDeparture.getArrivals());
@@ -67,27 +67,27 @@ public class DaoTrip {
         return trips;
     }
 
-    public static Trips getThreeFlightTrips(String from, String to, String onDate) {
+    public static Trips getThreeFlightTrips(String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
-        Flights fromDeparture = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(Driver.getTeamName(), from, onDate);
-        Flights toArrival = ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), to, onDate);
-        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), to, getNextDate(onDate)));
-        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), to, getNextDate(getNextDate(onDate))));
+        Flights fromDeparture = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, from, onDate);
+        Flights toArrival = ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, to, onDate);
+        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, to, getNextDate(onDate)));
+        toArrival.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, to, getNextDate(getNextDate(onDate))));
 
         Flights secondLegsFromDepartures = new Flights();
         Flights secondLegsFromArrivals = new Flights();
 
         //For each airport flights arrive to from the original airport
         for(String airport: fromDeparture.getArrivals()) {
-            secondLegsFromDepartures.addAllFlights(ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(Driver.getTeamName(), airport, onDate));
-            secondLegsFromDepartures.addAllFlights(ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(Driver.getTeamName(), airport, getNextDate(onDate)));
+            secondLegsFromDepartures.addAllFlights(ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, airport, onDate));
+            secondLegsFromDepartures.addAllFlights(ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, airport, getNextDate(onDate)));
         }
 
         //For each airport flights that fly to the destination take off from
         for(String airport: toArrival.getDepartures()) {
-            secondLegsFromArrivals.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), airport, onDate));
-            secondLegsFromArrivals.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(Driver.getTeamName(), airport, getNextDate(onDate)));
+            secondLegsFromArrivals.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, airport, onDate));
+            secondLegsFromArrivals.addAllFlights(ServerInterface.INSTANCE.getFlightsFromArrivalOnDate(teamName, airport, getNextDate(onDate)));
         }
 
         Flights secondLegs = new Flights();

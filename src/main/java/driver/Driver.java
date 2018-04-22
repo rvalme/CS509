@@ -47,6 +47,7 @@ public class Driver {
 			return;
 		}*/
 		teamName = "Man-Month";
+		System.out.println("Please wait for system initializing");
 		// Try to get a list of airports
 		airports = ServerInterface.INSTANCE.getAirports(teamName);
 		Collections.sort(airports);
@@ -60,11 +61,12 @@ public class Driver {
 			System.out.println(airplane.toString());
 		}
 
-		InputHandler inpH1 = new InputHandler();
+		InputHandler inpH1 = InputHandler.INSTANCE;
 		inpH1.initialize();
 		inpH1.validateDepartureTime();
 		inpH1.validateDepartureAirport(airports);
 		inpH1.validateArrivalAirport(airports);
+		inpH1.validateSeatType();
 		inpH1.close();
 
 		Flights flights = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, inpH1.getDeparture_airport_code(), inpH1.getDeparture_date());
@@ -74,7 +76,7 @@ public class Driver {
 //			System.out.print("\n");
 //		}
 
-		Trips trips = DaoTrip.getTripsFromParameters(inpH1.getDeparture_airport_code(), inpH1.getArrival_airport_code(), inpH1.getDeparture_date());
+		Trips trips = DaoTrip.getTripsFromParameters(teamName, inpH1.getDeparture_airport_code(), inpH1.getArrival_airport_code(), inpH1.getDeparture_date());
 		System.out.println("found" + trips.size() + " trips");
 
 		for(Trip trip: trips) {
@@ -96,6 +98,17 @@ public class Driver {
 		for (Airport airport: airports) {
 			if (airport.code().equals(airportCode)) {
 				result = airport;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public static Airplane getAirplane(String airplaneCode) {
+		Airplane result = new Airplane();
+		for (Airplane airplane: airplanes) {
+			if (airplane.getmModel().equals(airplaneCode)) {
+				result = airplane;
 				break;
 			}
 		}
