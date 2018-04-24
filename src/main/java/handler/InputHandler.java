@@ -2,6 +2,9 @@ package handler;
 import java.util.Scanner;
 import airport.Airports;
 import airport.Airport;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 // Done: Finished reading input capability for user specified options.
 // Need to: Validate User data
 //          Write script that gets info from user, checks if info is valid, and stores.
@@ -15,6 +18,11 @@ public enum InputHandler {
     String arrival_date;
     String trip_type;
     String seat_type;
+
+    String departTakeOffRange;
+    String departLandRange;
+    String returnTakeOffRange;
+    String returnLandRange;
 
     Scanner mReader;
 
@@ -43,6 +51,22 @@ public enum InputHandler {
         return seat_type;
     }
 
+    public String getDepartTakeOffRange() {
+        return departTakeOffRange;
+    }
+
+    public String getDepartLandRange() {
+        return departLandRange;
+    }
+
+    public String getReturnTakeOffRange() {
+        return returnTakeOffRange;
+    }
+
+    public String getReturnLandRange() {
+        return returnLandRange;
+    }
+
     //initializing scanner
     public void initialize() {
         mReader = new Scanner(System.in);  // Reading from System.in
@@ -51,6 +75,114 @@ public enum InputHandler {
     //closing scanner
     public void close() {
         mReader.close();
+    }
+
+    public String readNextInputLine() {
+        return mReader.nextLine();
+    }
+
+    public void validateDepartingFilter() {
+        boolean valid = false;
+
+        System.out.println("Filter departing trips:");
+
+        while (!valid) {
+            System.out.println("Take off time range: (HH:MM-HH:MM)");
+            String from = InputHandler.INSTANCE.readNextInputLine();
+
+            if (validateTimeRange(from)) {
+                departTakeOffRange = from;
+                valid = true;
+            } else {
+                System.out.println("Time not valid");
+            }
+        }
+
+        valid = false;
+
+        while (!valid) {
+            System.out.println("Landing time range: (HH:MM-HH:MM)");
+            String to = InputHandler.INSTANCE.readNextInputLine();
+
+            if (validateTimeRange(to)) {
+                departLandRange = to;
+                valid = true;
+            } else {
+                System.out.println("Time range not valid");
+            }
+        }
+    }
+
+    public void validateReturningFilter() {
+        boolean valid = false;
+
+        System.out.println("Filter returning trips:");
+
+        while (!valid) {
+            System.out.println("Take off time range: (HH:MM-HH:MM)");
+            String from = InputHandler.INSTANCE.readNextInputLine();
+
+            if (validateTimeRange(from)) {
+                returnTakeOffRange = from;
+                valid = true;
+            } else {
+                System.out.println("Time not valid");
+            }
+        }
+
+        valid = false;
+
+        while (!valid) {
+            System.out.println("Landing time range: (HH:MM-HH:MM)");
+            String to = InputHandler.INSTANCE.readNextInputLine();
+
+            if (validateTimeRange(to)) {
+                returnLandRange = to;
+                valid = true;
+            } else {
+                System.out.println("Time range not valid");
+            }
+        }
+    }
+
+    private boolean validateTimeRange(String timeRange) {
+        String[] rangeSplit = timeRange.split("-");
+
+        if (rangeSplit.length != 2) {
+            return false;
+        }
+
+        String rangeFrom = rangeSplit[0];
+        String rangeTo = rangeSplit[1];
+
+        String[] fromSplit = rangeFrom.split(":");
+        String[] toSplit = rangeTo.split(":");
+
+        if ((fromSplit.length != 2) || (toSplit.length != 2)) {
+            return false;
+        }
+
+        int fromHour = 0;
+        int fromMin = 0;
+        int toHour = 0;
+        int toMin = 0;
+
+        try {
+            fromHour = Integer.parseInt(fromSplit[0]);
+            fromMin = Integer.parseInt(fromSplit[1]);
+            toHour = Integer.parseInt(toSplit[0]);
+            toMin = Integer.parseInt(toSplit[1]);
+        } catch (Exception E) {
+            return false;
+        }
+
+        if ((0 <= fromHour) && (fromHour <= 23) && (0 <= fromMin) && (fromMin <= 59) && (0<=toHour) && (toHour <= 23) && (0 <= toMin) && (toMin <= 59)) {
+            if (fromHour < toHour)
+            return true;
+            else if ((fromHour == toHour) && (fromMin < toMin)) return true;
+        }
+
+        return false;
     }
 
     public void validateDepartureAirport(Airports airports) {
@@ -91,86 +223,89 @@ public enum InputHandler {
 
     public void validateDepartureTime() {
         boolean accepted = false;
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd");
+        LocalDate localDate = LocalDate.now();
+        String currentDate = dtf.format(localDate);
+
         while(!accepted){
             System.out.println("Enter the desired departure date (e.g. format YYYY_MM_DD): ");
             String dep_date = mReader.nextLine(); // Scans the line for the string.
+
             String [] sdep_date = dep_date.split("_");
             if(sdep_date.length != 3){
                 System.out.println("Improper date format");
                 continue;
             }
+
+            if (currentDate.compareTo(dep_date) > 0) {
+                System.out.println("The departure date has to be today or later");
+                continue;
+            }
+
             int month = Integer.parseInt(sdep_date[1]);
             int day = Integer.parseInt(sdep_date[2]);
             int year = Integer.parseInt(sdep_date[0]);
 
             //if((month == 5) && (year == 2018) && (day <= 31)){
-            if((year == 2018) && (day <= 31)){
+            if((year == 2018) && (month == 5) && (day <= 31)){
                 // has to be between in May
                 this.departure_date = dep_date;
                 accepted = true;
             }
+            else {
+                System.out.println("Invalid date");
+            }
         }
-
     }
 
-    public void validateAirportCode(Airports airports){
-        // need the list of airports
-        // check what information is returned by the airport
-        // run read from here
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        int found_equal_dep_air = 0;
-        int found_equal_arr_air = 0;
-        while(found_equal_dep_air == 0) {
-            System.out.println("Enter the departure airport code number: ");
-            String dep_airport_code = reader.nextLine(); // Scans the line for the string.
-            //compare all airports to make sure entered string is in the list
-            for (Airport airport : airports) {
-                //TODO MAKE SURE THE AIRPORTS CANT EQUAL
-                if (airport.code().equals(dep_airport_code)) {
-                    found_equal_dep_air = 1;
-                    this.departure_airport_code = dep_airport_code;
-                }
+    public void validateArrivalTime() {
+        boolean accepted = false;
+
+        while(!accepted){
+            System.out.println("Enter the desired return date (e.g. format YYYY_MM_DD): ");
+            String dep_date = mReader.nextLine(); // Scans the line for the string.
+
+            String [] sdep_date = dep_date.split("_");
+            if(sdep_date.length != 3){
+                System.out.println("Improper date format");
+                continue;
             }
-            if (found_equal_dep_air == 0) {
-                System.out.println("Airport not found!");
+
+            if (dep_date.compareTo(departure_date) < 0) {
+                System.out.println("The return date has to be the departure date or later");
+                continue;
             }
-        }
-        //once finished
-        while(found_equal_arr_air == 0) {
-            System.out.println("Enter the arrival airport code number: ");
-            String arr_airport_code = reader.nextLine(); // Scans the line for the string.
-            //compare all airports to make sure entered string is in the list
-            for (Airport airport : airports) {
-                if (airport.code().equals(arr_airport_code)) {
-                    found_equal_arr_air = 1;
-                    this.arrival_airport_code = arr_airport_code;
-                }
+
+            int month = Integer.parseInt(sdep_date[1]);
+            int day = Integer.parseInt(sdep_date[2]);
+            int year = Integer.parseInt(sdep_date[0]);
+
+            if((year == 2018) && (month == 5) && (day <= 31)){
+                // has to be between in May
+                this.arrival_date = dep_date;
+                accepted = true;
             }
-            if (found_equal_arr_air == 0) {
-                System.out.println("Airport not found!");
+            else {
+                System.out.println("Invalid date");
             }
         }
-        reader.close();
-        //System.out.println(this.arrival_airport_code);
-        //System.out.println(this.departure_airport_code);
-}
+    }
 
     public void validateTripType(){
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
         int found_trip_type = 0;
         while(found_trip_type == 0) {
-            System.out.println("Enter the desired trip type (round trip or one-way): ");
-            String t_type = reader.nextLine(); // Scans the line for the string.
+            System.out.println("Enter the desired trip type (round trip or one way): ");
+            String t_type = mReader.nextLine(); // Scans the line for the string.
             //compare all airports to make sure entered string is in the list
-            if (t_type.equals("round trip") || t_type.equals("one-way")) {
+            if (t_type.equals("round trip") || t_type.equals("one way")) {
                     found_trip_type = 1;
                     this.trip_type = t_type; // Scans the line for the string.
-                }
-            if (found_trip_type == 0) {
+            }
+            else {
                 System.out.println("Trip type not found!");
             }
         }
-        reader.close();
    }
 
     public void validateDepartureDate(){
@@ -200,11 +335,10 @@ public enum InputHandler {
     }
 
     public void validateArrivalDate(){
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
         int found_arr_date = 0;
         while(found_arr_date == 0){
             System.out.println("Enter the desired arrival date (e.g. format 05_05_2018): ");
-            String arr_date = reader.nextLine(); // Scans the line for the string.
+            String arr_date = mReader.nextLine(); // Scans the line for the string.
             String [] sarr_date = arr_date.split("_");
             if(sarr_date.length != 3){
                 System.out.println("Improper date format");
@@ -222,7 +356,6 @@ public enum InputHandler {
                 System.out.println("Date out of range");
             }
         }
-        reader.close();
     }
 
     public void validateSeatType(){

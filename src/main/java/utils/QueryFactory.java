@@ -29,7 +29,17 @@ public class QueryFactory {
 	public static String lock (String teamName) {
 		return "team=" + teamName + "&action=lockDB";
 	}
-	
+
+	/**
+	 * Reset the database to its initial state
+	 *
+	 * @param teamName is the name of the team to reset the database
+	 * @return the String written to HTTP POST to reset server database
+	 */
+	public static String reset (String teamName) {
+		return "?team=" + teamName + "&action=resetDB";
+	}
+
 	/**
 	 * Unlock the server database after updates are written
 	 * 

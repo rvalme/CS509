@@ -1,19 +1,52 @@
 package flight;
 
+import handler.InputHandler;
+
 import java.util.ArrayList;
 
 public class Trip extends ArrayList<Flight> {
     private static final long serialVersionUID = 4L;
+
     private boolean isValid = true;
+    private int totalTravelTime = 0;
+    private double totalPrice = 0;
 
     public boolean isValid() {
         return isValid;
     }
 
+    public int getTotalTravelTime() {
+        return totalTravelTime;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String reserveString() {
+        String returnString = "<Flights>";
+
+        String seatType;
+        if (InputHandler.INSTANCE.getSeat_type().equals("coach")) seatType = "Coach";
+        else seatType = "FirstClass";
+
+        for (Flight flight: this) {
+            returnString += "<Flight number=\"" + flight.getmFlightNumber() + "\" seating=\"" + seatType + "\"/>";
+        }
+
+        returnString += "</Flights>";
+
+        System.out.println(returnString);
+        return returnString;
+    }
+
     public String toString() {
         StringBuffer as = new StringBuffer();
 
+        as.append("Total travel time: ").append(totalTravelTime).append(" minutes\n");
+        as.append("Total price: $").append(totalPrice).append("\n");
         for (int i = 0; i < this.size(); i++) {
+            as.append("---------------------\n");
             as.append("Leg number ").append(i+1).append(": \n");
             as.append(get(i).toString());
             as.append("\n");
@@ -31,6 +64,16 @@ public class Trip extends ArrayList<Flight> {
         }
 
         boolean result = super.add(flight);
+
+        totalTravelTime = getDurationBetween(get(0).mDepartureTime, get(size()-1).mArrivalTime);
+
+        if (InputHandler.INSTANCE.getSeat_type().equals("coach")) {
+            totalPrice += flight.mCoachPrice;
+        }
+        else {
+            totalPrice += flight.mFirstClassPrice;
+        }
+
         return result;
     }
 
@@ -38,10 +81,20 @@ public class Trip extends ArrayList<Flight> {
         String land = first.getmArrivalTime();
         String takeoff = second.getmDepartureTime();
 
-        int landTime = getTimeSinceStartOfMay(land);
-        int takeOffTime = getTimeSinceStartOfMay(takeoff); //time since start of May
+        int difference = getDurationBetween(land, takeoff);
 
-        int difference = takeOffTime - landTime;
+//        System.out.println(land);
+//        System.out.println(takeoff);
+//        System.out.println(difference);
+
+        return difference;
+    }
+
+    private int getDurationBetween(String timeFirst, String timeSecond) {
+        int first = getTimeSinceStartOfMay(timeFirst);
+        int second = getTimeSinceStartOfMay(timeSecond); //time since start of May
+
+        int difference = second - first;
 
 //        System.out.println(land);
 //        System.out.println(takeoff);

@@ -15,6 +15,8 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
     String mDepartureTime;
     String mArrivalAirport;         //    Arrival airport and time (GMT or local time is OK)
     String mArrivalTime;
+    String mDepartureTimeLocal = "";
+    String mArrivalTimeLocal = "";
     double mFirstClassPrice;        //    Number of first class seats booked for flight and price of first class seat
     int mFirstClassReserved;
     double mCoachPrice;             //    Number of economy seats booked for flight and price of economy seat
@@ -87,13 +89,15 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
         Airport departure = Driver.getAirport(mDepartureAirport);
         Airport arrival = Driver.getAirport(mArrivalAirport);
 
+        mDepartureTimeLocal = TimeConversion.INSTANCE.gmtToLocal(mDepartureTime, departure.getmTimeZone());
+        mArrivalTimeLocal = TimeConversion.INSTANCE.gmtToLocal(mArrivalTime, arrival.getmTimeZone());
         StringBuffer as = new StringBuffer();
 
         as.append("Airplane: ").append(mAirplaneType).append(", flight time: ").append(mTravelTime).append(", flight number: ").append(mFlightNumber);
         as.append("\n");
-        as.append("Departing ").append(mDepartureAirport).append(" at ").append(TimeConversion.INSTANCE.gmtToLocal(mDepartureTime, departure.getmTimeZone()));
+        as.append("Departing ").append(mDepartureAirport).append(" at ").append(mDepartureTimeLocal);
         as.append("\n");
-        as.append("Arriving at ").append(mArrivalAirport).append(" at ").append(TimeConversion.INSTANCE.gmtToLocal(mArrivalTime, arrival.getmTimeZone()));
+        as.append("Arriving at ").append(mArrivalAirport).append(" at ").append(mArrivalTimeLocal);
         as.append("\n");
         as.append("First class price: ").append(mFirstClassPrice).append(", ").append(mFirstClassReserved).append(" booked");
         as.append("\n");
@@ -128,6 +132,14 @@ public class Flight  implements Comparable<Flight>, Comparator<Flight> {
 
     public String getmFlightNumber() {
         return mFlightNumber;
+    }
+
+    public String getmDepartureTimeLocal() {
+        return mDepartureTimeLocal;
+    }
+
+    public String getmArrivalTimeLocal() {
+        return mArrivalTimeLocal;
     }
 
     public boolean isSeatAvailable() {

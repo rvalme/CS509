@@ -15,8 +15,6 @@ public class DaoTrip {
         trips.addAll(getOneFlightTrips(teamName, from, to, onDate));
         trips.addAll(getTwoFlightTrips(teamName, from, to, onDate));
         trips.addAll(getThreeFlightTrips(teamName, from, to, onDate));
-//        System.out.println("Next day: " + getNextDate(onDate));
-//        System.out.println("Next two day: " + getNextDate(getNextDate(onDate)));
 
         return trips;
     }
@@ -24,8 +22,8 @@ public class DaoTrip {
     public static Trips getOneFlightTrips (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
-        Flights flights = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, from, onDate);
-        for (Flight flight: flights) {
+        Flights fromDeparture = ServerInterface.INSTANCE.getFlightsFromDepartureOnDate(teamName, from, onDate);
+        for (Flight flight: fromDeparture) {
             if (flight.getmArrivalAirport().equals(to)) {
                 Trip tripInstance = new Trip();
                 tripInstance.add(flight);

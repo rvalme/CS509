@@ -47,7 +47,7 @@ public class DaoFlight {
      * Creates an Flight object from a DOM node
      *
      * Processes a DOM Node that describes an Flight, creates an Flight object from the information
-     * @param nodeFlight is a DOM Node describing an Flight
+     * @param nodeFlight is a DOM Node describing a Flight
      * @return Flight object created from the DOM Node representation of the Flight
      *
      * @pre nodeFlight is of format specified by CS509 server API
