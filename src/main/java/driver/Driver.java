@@ -110,6 +110,11 @@ public class Driver {
             returnTrips = DaoTrip.getTripsFromParameters(teamName, input.getArrival_airport_code(), input.getDeparture_airport_code(), input.getArrival_date());
         }
 
+        if (departTrips.size() == 0) {
+            System.out.println("No departing trips found");
+            return;
+        }
+
         displayTrips();
 
         boolean displayingTrips = true;
