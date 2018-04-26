@@ -34,6 +34,7 @@ public class DaoFlight {
             Element elementFlight = (Element) nodesFlights.item(i);
             Flight flight = buildFlight (elementFlight);
 
+            //Only consider this flight object if the required seating type from the user is available
             if (flight.isSeatAvailable()) {
                 flights.add(flight);
             }

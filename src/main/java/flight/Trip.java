@@ -7,22 +7,45 @@ import java.util.ArrayList;
 public class Trip extends ArrayList<Flight> {
     private static final long serialVersionUID = 4L;
 
+    //a valid trip object has layover time between legs no less than 30 mins and no more than 3 hours
     private boolean isValid = true;
+    //total travel time from first take off to last landing
     private int totalTravelTime = 0;
+    //total price of the user specified seating type
     private double totalPrice = 0;
 
+    /**
+     * Whether this is a valid trip or not
+     *
+     * @return true if this trip is a valid trip, false otherwise
+     */
     public boolean isValid() {
         return isValid;
     }
 
+    /**
+     * Get the total travel time for this trip
+     *
+     * @return the total travel time in minutes
+     */
     public int getTotalTravelTime() {
         return totalTravelTime;
     }
 
+    /**
+     * Get the total price for the seating type the user wants
+     *
+     * @return the total price
+     */
     public double getTotalPrice() {
         return totalPrice;
     }
 
+    /**
+     * Get xmlFlight string required to reserve all flights inside this trip
+     *
+     * @return the xml formatted string needed
+     */
     public String reserveString() {
         String returnString = "<Flights>";
 
@@ -40,6 +63,12 @@ public class Trip extends ArrayList<Flight> {
         return returnString;
     }
 
+    /**
+     * Convert object to printable string
+     * Display the total travel time, the total price as long as all legs in this trip
+     *
+     * @return the object formatted as String to display
+     */
     public String toString() {
         StringBuffer as = new StringBuffer();
 
@@ -55,6 +84,12 @@ public class Trip extends ArrayList<Flight> {
         return as.toString();
     }
 
+    /**
+     * Add the next leg to this trip, updating the total travel and total price
+     * Calculate the layover time and determine if the trip is valid or not accordingly
+     *
+     * @return true if added successfully, false otherwise
+     */
     @Override
     public boolean add(Flight flight) {
         if (size() > 0) {

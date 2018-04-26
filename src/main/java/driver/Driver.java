@@ -37,21 +37,16 @@ public class Driver {
     private static boolean filtering;
 
 	/**
-	 * Entry point for CS509 sample code driver
+	 * Entry point for CS509 Flight Reservation Client Software
 	 * 
-	 * This driver will retrieve the list of airports from the CS509 server and print the list 
-	 * to the console sorted by 3 character airport code
+	 * This driver will asks user for input parameters for flight search, display appropriate flights,
+     * lets user sorts the flights based on travel duration, departure time, arrival time or price and
+     * lets user make a reservation for selected flights.
 	 * 
 	 * @param args is the arguments passed to java vm in format of "CS509.sample teamName" where teamName is a valid team
 	 */
 	public static void main(String[] args) {
 
-		//TODO list of airports validate airport codes or strings???
-/*		if (args.length != 1) {
-			System.err.println("usage: CS509.sample teamName");
-			System.exit(-1);
-			return;
-		}*/
 		teamName = "Man-Month";
 		System.out.println("Please wait for system initializing");
 		// Try to get a list of airports
@@ -112,6 +107,7 @@ public class Driver {
 
         if (departTrips.size() == 0) {
             System.out.println("No departing trips found");
+            input.close();
             return;
         }
 
@@ -185,11 +181,13 @@ public class Driver {
         }
 
         makeReservation();
+        input.close();
 
 	}
     /**
-     * Update the database with a reservation for a number of departing and returning Trips
-     *
+     * Ask the user for the trips they want to reserve, validate their selection
+     * then make the reservation by calling the ServerInterface to lock the database,
+     * update it with the specified reservation then release the lock.
      *
      */
 	private static void makeReservation() {
@@ -377,7 +375,7 @@ public class Driver {
 	}
 
     /**
-     * Get an airplane object for the particular airport
+     * Get an airplane object for the particular airplane
      *
      * @param airplaneCode the desired airplane
      * @return Airplane object

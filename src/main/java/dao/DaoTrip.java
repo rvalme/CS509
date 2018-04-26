@@ -10,7 +10,7 @@ import java.util.TreeSet;
 public class DaoTrip {
 
     /**
-     * Retrieve the list of trips from one, two, and three flight trips
+     * Retrieve the list of trips consisting of one leg, two legs or three legs
      *
      * @param teamName
      * @param from  departure airport
@@ -29,7 +29,7 @@ public class DaoTrip {
     }
 
     /**
-     * Retrieve the list of trips from one flight trips
+     * Retrieve the list of trips that has only one leg from the departure airport to the arrival airport
      *
      * @param teamName
      * @param from  departure airport
@@ -55,7 +55,7 @@ public class DaoTrip {
     }
 
     /**
-     * Retrieve the list of trips from two flight trips
+     * Retrieve the list of trips that has two legs from the departure airport to the arrival airport
      *
      * @param teamName
      * @param from  departure airport
@@ -93,7 +93,7 @@ public class DaoTrip {
     }
 
     /**
-     * Retrieve the list of trips from three flight trips
+     * Retrieve the list of trips that has three legs from the departure airport to the arrival airport
      *
      * @param teamName
      * @param from  departure airport

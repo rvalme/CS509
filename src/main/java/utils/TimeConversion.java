@@ -27,10 +27,26 @@ public enum TimeConversion {
                 .build();
     }
 
+    /**
+     * Set the latitude and longitude object
+     *
+     * @param latitude the latitude to set
+     * @param longitude the longitude to set
+     *
+     * @return
+     */
     public void setLatLng(double latitude, double longitude) {
         airport_loc = new LatLng(latitude, longitude);
     }
 
+    /**
+     * Get the time zone of the location with the specified latitude and longitude
+     *
+     * @param latitude the latitude of the place
+     * @param longitude the longitude of the place
+     *
+     * @return the time zone
+     */
     public String getTimeZone(double latitude, double longitude){
         setLatLng(latitude,longitude);
         try{
@@ -45,6 +61,14 @@ public enum TimeConversion {
 
     }
 
+    /**
+     * Convert the specified GMT flight time string to local time using the specified time zone
+     *
+     * @param flightTime the flight time in GMT
+     * @param timeZone the time zone to convert to
+     *
+     * @return the time string in local time
+     */
     public String gmtToLocal(String flightTime, String timeZone) {
         //converts gmt to est, cst, mst, pst depending on the inputted timezone
         String[] flightTimeSplit = flightTime.split(" ");
@@ -82,6 +106,14 @@ public enum TimeConversion {
         return nFlightTime;
     }
 
+    /**
+     * Convert the specified local flight time string to GMT time using the specified time zone
+     *
+     * @param flightTime the flight time in local time
+     * @param timeZone the time zone of the specified time string
+     *
+     * @return the time string in GMT
+     */
     public String localToGMT(String flightTime, String timeZone) {
         //converts est, cst, mst, pst to gmt depending on the inputted timezone
         String[] flightTimeSplit = flightTime.split(" ");

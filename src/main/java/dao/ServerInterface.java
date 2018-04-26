@@ -88,7 +88,7 @@ public enum ServerInterface {
 	}
 
 	/**
-	 * Return a collection of all the flights from the server on the departure date
+	 * Return a collection of all the flights from the server departing an airport on a specific date
 	 *
 	 * Retrieve the list of flights available
 	 *
@@ -147,7 +147,7 @@ public enum ServerInterface {
 	}
 
 	/**
-	 * Return a collection of all the flights from the server on the arrival date
+	 * Return a collection of all the flights from the server arriving at an airport on a specific date
 	 *
 	 * Retrieve the list of flights available
 	 *
@@ -419,7 +419,7 @@ public enum ServerInterface {
 	}
 
 	/**
-	 * Reset the connection to the database.
+	 * Reset the database to its initial state
 	 *
 	 * @param teamName is the name of team requesting server lock
 	 * @return true if the server was reset successfully, else false
