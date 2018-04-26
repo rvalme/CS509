@@ -252,17 +252,28 @@ public class Driver {
             if (!answer.equals("Yes")) orderValid = false;
         }
 
-        ServerInterface.INSTANCE.lock(teamName);
+        boolean locked = false;
+        long startTime = System.currentTimeMillis();
+        long estimatedTime = 0;
 
-        Trip departTrip = departTrips.get(departTripNum-1);
-        ServerInterface.INSTANCE.reserve(teamName, departTrip.reserveString());
-        if (InputHandler.INSTANCE.getTrip_type().equals("round trip")) {
-            Trip returnTrip = returnTrips.get(returnTripNum-1);
-            ServerInterface.INSTANCE.reserve(teamName, returnTrip.reserveString());
+        System.out.println("Attempting to lock the database for update.");
+        while((!locked)&&(estimatedTime<10000)) {
+            locked = ServerInterface.INSTANCE.lock(teamName);
+            estimatedTime = System.currentTimeMillis() - startTime;
         }
+        if (locked) {
+            Trip departTrip = departTrips.get(departTripNum - 1);
+            ServerInterface.INSTANCE.reserve(teamName, departTrip.reserveString());
+            if (InputHandler.INSTANCE.getTrip_type().equals("round trip")) {
+                Trip returnTrip = returnTrips.get(returnTripNum - 1);
+                ServerInterface.INSTANCE.reserve(teamName, returnTrip.reserveString());
+            }
 
-        ServerInterface.INSTANCE.unlock(teamName);
-
+            ServerInterface.INSTANCE.unlock(teamName);
+        }
+        else {
+            System.out.println("Could not acquire database lock. Please try again after a few minutes");
+        }
     }
 
     /**
