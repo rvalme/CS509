@@ -9,6 +9,15 @@ import java.util.TreeSet;
 
 public class DaoTrip {
 
+    /**
+     * Retrieve the list of trips from one, two, and three flight trips
+     *
+     * @param teamName
+     * @param from  departure airport
+     * @param to  arrival airport
+     * @param onDate date on which you are departing
+     * @return the list of trips
+     */
     public static Trips getTripsFromParameters (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
@@ -19,6 +28,15 @@ public class DaoTrip {
         return trips;
     }
 
+    /**
+     * Retrieve the list of trips from one flight trips
+     *
+     * @param teamName
+     * @param from  departure airport
+     * @param to  arrival airport
+     * @param onDate date on which you are departing
+     * @return the list of trips
+     */
     public static Trips getOneFlightTrips (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
@@ -36,6 +54,15 @@ public class DaoTrip {
         return trips;
     }
 
+    /**
+     * Retrieve the list of trips from two flight trips
+     *
+     * @param teamName
+     * @param from  departure airport
+     * @param to  arrival airport
+     * @param onDate date on which you are departing
+     * @return the list of trips
+     */
     public static Trips getTwoFlightTrips (String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
@@ -65,6 +92,15 @@ public class DaoTrip {
         return trips;
     }
 
+    /**
+     * Retrieve the list of trips from three flight trips
+     *
+     * @param teamName
+     * @param from  departure airport
+     * @param to  arrival airport
+     * @param onDate date on which you are departing
+     * @return the list of trips
+     */
     public static Trips getThreeFlightTrips(String teamName, String from, String to, String onDate) {
         Trips trips = new Trips();
 
@@ -114,6 +150,12 @@ public class DaoTrip {
         return trips;
     }
 
+    /**
+     * Retrieve the next day
+     *
+     * @param onDate date you want the next day of
+     * @return the String of the next day
+     */
     static String getNextDate(String onDate) {
         String[] dateString = onDate.split("_");
         int month = Integer.parseInt(dateString[1]);

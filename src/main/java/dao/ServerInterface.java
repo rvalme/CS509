@@ -87,6 +87,16 @@ public enum ServerInterface {
 		
 	}
 
+	/**
+	 * Return a collection of all the flights from the server on the departure date
+	 *
+	 * Retrieve the list of flights available
+	 *
+	 * @param teamName identifies the name of the team requesting the collection of airports
+	 * @param departureAirport identifies the code for the departing airport
+	 * @param date identifies the date on which one wants to depart
+	 * @return collection of flights from server
+	 */
 	public Flights getFlightsFromDepartureOnDate (String teamName, String departureAirport, String date) {
 
 		URL url;
@@ -136,6 +146,16 @@ public enum ServerInterface {
 
 	}
 
+	/**
+	 * Return a collection of all the flights from the server on the arrival date
+	 *
+	 * Retrieve the list of flights available
+	 *
+	 * @param teamName identifies the name of the team requesting the collection of airports
+	 * @param arrivalAirport identifies the code for the arriving airport
+	 * @param date identifies the date on which one wants to depart
+	 * @return collection of flights from server
+	 */
 	public Flights getFlightsFromArrivalOnDate (String teamName, String arrivalAirport, String date) {
 
 		URL url;
@@ -344,6 +364,13 @@ public enum ServerInterface {
 		return true;
 	}
 
+	/**
+	 * Reserve a seat on a number of flights by updating the database.
+	 *
+	 * @param teamName is the name of team requesting server lock
+	 * @param xmlFlights the flights to be reserved as an xml string
+	 * @return true if the server was updated successfully, else false
+	 */
 	public boolean reserve (String teamName, String xmlFlights) {
 		URL url;
 		HttpURLConnection connection;
@@ -391,6 +418,12 @@ public enum ServerInterface {
 		return true;
 	}
 
+	/**
+	 * Reset the connection to the database.
+	 *
+	 * @param teamName is the name of team requesting server lock
+	 * @return true if the server was reset successfully, else false
+	 */
 	public boolean reset (String teamName) {
 		URL url;
 		HttpURLConnection connection;

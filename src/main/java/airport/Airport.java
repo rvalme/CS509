@@ -112,6 +112,11 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 		mTimeZone = TimeConversion.INSTANCE.getTimeZone(mLatitude, mLongitude);
 	}
 
+	/**
+	 * get the time zone for this airport
+	 *
+	 * @return The timezone of the airport as a string
+	 */
 	public String getmTimeZone() {
 		return mTimeZone;
 	}
@@ -157,7 +162,7 @@ public class Airport implements Comparable<Airport>, Comparator<Airport> {
 	 * set the airport 3 letter code
 	 * 
 	 * @param code The 3 letter code for the airport
-	 * @throws IllegalArgumentException is code is invalid
+	 * @throws IllegalArgumentException if code is invalid
 	 */
 	public void code (String code) {
 		if (isValidCode(code))

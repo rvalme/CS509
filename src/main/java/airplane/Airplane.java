@@ -97,10 +97,21 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
 
 
     //Getters and Setters
+    /**
+     * get the manufacturer of the airplane
+     *
+     * @return The airplane manufacturer as a String
+     */
     public String getmManufacturer() {
         return mManufacturer;
     }
 
+    /**
+     * set the manufacturer of the airplane
+     *
+     * @param manufacturer The String for the name of the company that built the airplane
+     * @throws IllegalArgumentException if manufacturer is invalid
+     */
     public void setmManufacturer(String manufacturer) {
         if (isValidManufacturer(manufacturer))
             mManufacturer = manufacturer;
@@ -108,10 +119,21 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
             throw new IllegalArgumentException (manufacturer);
     }
 
+    /**
+     * get the model of the airplane
+     *
+     * @return The airplane model as a String
+     */
     public String getmModel() {
         return mModel;
     }
 
+    /**
+     * set the model of the airplane
+     *
+     * @param model The String for the name of the specific model of the airplane
+     * @throws IllegalArgumentException if model is invalid
+     */
     public void setmModel(String model) {
         if (isValidModel(model))
             mModel = model;
@@ -119,10 +141,21 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
             throw new IllegalArgumentException (model);
     }
 
+    /**
+     * get the number of first class seats on the airplane
+     *
+     * @return The number of first class seats as an Integer
+     */
     public int getmFirstClassSeats() {
         return mFirstClassSeats;
     }
 
+    /**
+     * set the number of first class seats on the airplane
+     *
+     * @param firstClassSeats the number of first class seats on the airplane
+     *
+     */
     public void setmFirstClassSeats(int firstClassSeats) {
         if (isValidSeats(firstClassSeats))
             mFirstClassSeats = firstClassSeats;
@@ -130,10 +163,21 @@ public class Airplane implements Comparable<Airplane>, Comparator<Airplane> {
             throw new IllegalArgumentException (Integer.toString(firstClassSeats));
     }
 
+    /**
+     * get the number of coach class seats on the airplane
+     *
+     * @return The number of coach class seats as an Integer
+     */
     public double getmCoachSeats() {
         return mCoachSeats;
     }
 
+    /**
+     * set the number of coach class seats on the airplane
+     *
+     * @param coachSeats the number of coach class seats on the airplane
+     *
+     */
     public void setmCoachSeats(int coachSeats) {
         if (isValidSeats(coachSeats))
             mCoachSeats = coachSeats;

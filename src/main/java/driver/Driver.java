@@ -187,7 +187,11 @@ public class Driver {
         makeReservation();
 
 	}
-
+    /**
+     * Update the database with a reservation for a number of departing and returning Trips
+     *
+     *
+     */
 	private static void makeReservation() {
         int departTripNum = 0;
         int returnTripNum = 0;
@@ -263,6 +267,11 @@ public class Driver {
 
     }
 
+    /**
+     * Display the available trips for the user to select.
+     *
+     *
+     */
 	private static void displayTrips() {
         System.out.println("*-----------------------------------------------------*");
         System.out.println("|                   DEPARTING TRIPS                   |");
@@ -341,10 +350,21 @@ public class Driver {
         }
     }
 
+    /**
+     * Get the name of the team
+     *
+     * @return Team name
+     */
 	public static String getTeamName() {
 		return teamName;
 	}
 
+    /**
+     * Get an airport object for the particular airport
+     *
+     * @param airportCode the desired airport
+     * @return Airport object
+     */
 	public static Airport getAirport(String airportCode) {
 		Airport result = new Airport();
 		for (Airport airport: airports) {
@@ -356,6 +376,12 @@ public class Driver {
 		return result;
 	}
 
+    /**
+     * Get an airplane object for the particular airport
+     *
+     * @param airplaneCode the desired airplane
+     * @return Airplane object
+     */
 	public static Airplane getAirplane(String airplaneCode) {
 		Airplane result = new Airplane();
 		for (Airplane airplane: airplanes) {
