@@ -146,6 +146,10 @@ public enum InputHandler {
     }
 
     private boolean validateTimeRange(String timeRange) {
+        if (timeRange.length() != 11) {
+            return false;
+        }
+
         String[] rangeSplit = timeRange.split("-");
 
         if (rangeSplit.length != 2) {

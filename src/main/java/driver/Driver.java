@@ -180,9 +180,6 @@ public class Driver {
         }
 
         makeReservation();
-//        ServerInterface.INSTANCE.reserve(teamName, trips.get(0).reserveString());
-//        ServerInterface.INSTANCE.unlock(teamName);
-		//System.out.println("gmt time: " + flights.get(0).getmArrivalTime() + " local time: " + TimeConversion.INSTANCE.gmtToLocal(flights.get(0).getmArrivalTime(), 42.3601, -71.0589));
 
 	}
 
@@ -241,6 +238,11 @@ public class Driver {
             } else {
                 orderValid = true;
             }
+
+            System.out.println("Type \"Yes\" to confirm your reservation");
+            System.out.println("Or anything else to enter different trips to reserve");
+            String answer = InputHandler.INSTANCE.readNextInputLine();
+            if (!answer.equals("Yes")) orderValid = false;
         }
 
 
@@ -258,8 +260,9 @@ public class Driver {
     }
 
 	private static void displayTrips() {
-        System.out.println(departTrips.size() + " departing trips");
-
+        System.out.println("*-----------------------------------------------------*");
+        System.out.println("|                   DEPARTING TRIPS                   |");
+        System.out.println("*-----------------------------------------------------*\n");
         String takeOffRange, landRange;
         boolean displaying;
 
@@ -289,14 +292,16 @@ public class Driver {
                         (landTime.compareTo(landRangeSplit[1]) > 0)) displaying = false;
             }
             if (displaying) {
-                System.out.print("Departing trip number " + (departTrips.indexOf(trip)+1) + "\n");
+                System.out.print("~~~ DEPARTING TRIP NUMBER " + (departTrips.indexOf(trip)+1) + " ~~~\n");
                 System.out.println(trip.toString());
                 System.out.print("\n");
             }
         }
 
         if (InputHandler.INSTANCE.getTrip_type().equals("round trip")) {
-            System.out.println(returnTrips.size() + " returning trips");
+            System.out.println("*-----------------------------------------------------*");
+            System.out.println("|                   RETURNING TRIPS                   |");
+            System.out.println("*-----------------------------------------------------*\n");
             for(Trip trip: returnTrips) {
                 displaying = true;
                 if (filtering) {
@@ -324,7 +329,7 @@ public class Driver {
                 }
 
                 if (displaying) {
-                    System.out.print("Returning trip number " + (returnTrips.indexOf(trip)+1) + "\n");
+                    System.out.print("~~~ RETURNING TRIP NUMBER " + (returnTrips.indexOf(trip)+1) + " ~~~\n");
                     System.out.println(trip.toString());
                     System.out.print("\n");
                 }

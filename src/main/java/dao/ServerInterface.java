@@ -236,7 +236,7 @@ public enum ServerInterface {
 		}
 
 		xmlAirplanes = result.toString();
-		System.out.println(xmlAirplanes);
+		//System.out.println(xmlAirplanes);
 		Airplanes airplanes = DaoAirplane.addAll(xmlAirplanes);
 		return airplanes;
 	}
