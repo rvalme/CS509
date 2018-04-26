@@ -202,6 +202,10 @@ public enum InputHandler {
                     break;
                 }
             }
+            if (!found) {
+                System.out.println("Airport doesn't exist.");
+                System.out.println("Please refer to the list of airports in our database above");
+            }
         }
     }
 
@@ -221,6 +225,10 @@ public enum InputHandler {
                     this.arrival_airport_code = airport_code;
                     break;
                 }
+            }
+            if (!found) {
+                System.out.println("Airport doesn't exist.");
+                System.out.println("Please refer to the list of airports in our database above");
             }
         }
     }

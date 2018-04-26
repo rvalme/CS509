@@ -245,7 +245,6 @@ public class Driver {
             if (!answer.equals("Yes")) orderValid = false;
         }
 
-
         ServerInterface.INSTANCE.lock(teamName);
 
         Trip departTrip = departTrips.get(departTripNum-1);
